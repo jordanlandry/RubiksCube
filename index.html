@@ -20,11 +20,19 @@
   <div class="modal" id="properties-ui">
     <div class="modal-content">
       <h3 style="color: white">Cube Dimensions: <input type="number" id="size" value='3'></h3>
+      <h3 style="color: white">Solving Method: 
+        <select name="method" id="method">
+          <option value="beginner">Beginner</option>
+          <option value="cfop">CFOP</option>
+          <option value="roux">Roux</option>
+        </select>
+      </h3>
       <button onclick="setProperties()">Refresh</button>
-    </div>
-    
-    <script src="scripts/properties.js"></script>
-    <script src="scripts/main.js"></script>
+    </div>  
   </div>
+
+  <script src="scripts/properties.js"></script>
+  <script src="scripts/main.js"></script>
+
 </body>
 </html>

@@ -1,6 +1,9 @@
 // Turn the cube
 document.addEventListener('keydown', (event) => {
-  if (event.code === 'ArrowDown') turnRight(0, true);
+  scrambleSequence = generateScramble(25);
+  let sequence = 'ur';
+  if (event.code === 'ArrowDown') turn(sequence);
+  console.log(scrambleSequence);
 });
 
 // Move the mouse to change the rotation of the cube
