@@ -40,7 +40,7 @@ function setProperties() {
 
 function generateScramble(len = cube.dim * cube.dim * cube.dim) {
   // Need a random move and direction
-  let possibleMoves = 'rmlfsbued';
+  let possibleMoves = 'rlfbud';
   let max = possibleMoves.length;
 
   let scramble = '';
@@ -48,7 +48,7 @@ function generateScramble(len = cube.dim * cube.dim * cube.dim) {
     let moveIndex = Math.floor(Math.random() * max);
     scramble += possibleMoves[moveIndex];
 
-    // Direction 
+    // Direction
     if (Math.random() < 0.5) scramble += 'i';
 
     // Move certain row if it is a larger than 3x3 cube

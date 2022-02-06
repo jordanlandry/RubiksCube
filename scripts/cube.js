@@ -34,73 +34,79 @@ class Cube {
           const m = new THREE.MeshBasicMaterial({color: col});
           const c = new THREE.Mesh(g, m);
 
-          let x = i * this.w;
-          let y = j * this.w;
+          let x = (i * this.w);
+          let y = (j * this.w);
+
+          c.position.x = -this.size / 2;
+          c.position.y = -this.size / 2;
+          c.position.z = this.size / 2;
 
           if (s === 0) {
-            c.position.x = x;
-            c.position.y = y;
+            c.translateX(x);
+            c.translateY(y);
           }
 
           if (s === 1) {
-            c.position.z = x
-            c.position.y = y;
-            c.rotation.y = Math.PI / 2;
+            c.translateY(y);
+            c.translateZ(-x - this.w / 2);
 
-            c.translateZ(this.size - this.w / 2);
             c.translateX(this.size - this.w / 2);
+            c.rotation.y = Math.PI / 2;
           }
 
           if (s === 2) {
-            c.position.z = x;
-            c.position.y = y;
-            c.rotation.y = -Math.PI / 2;
+            c.translateZ(x - this.size + this.w / 2);
+            c.translateY(y);
 
-            c.translateX(-this.size + this.w / 2);
-            c.translateZ(this.w / 2);
+            c.translateX(-this.w / 2);
+            c.rotation.y = -Math.PI / 2;
           }
 
           if (s === 3) {
-            c.position.x = x;
-            c.position.y = y;
-
+            c.translateX(x);
+            c.translateY(y);
+            c.translateZ(-this.size);
             c.rotation.y = Math.PI;
-            c.translateZ(this.size);
           }
 
           if (s === 4) {
-            c.position.x = x;
-            c.position.z = y;
+            c.translateX(x);
+            c.translateZ(y);
 
-            c.translateY(this.size - this.w / 2);
             c.translateZ(-this.size + this.w / 2);
-
+            c.translateY(this.size - this.w / 2);
             c.rotation.x = -Math.PI / 2;
           }
 
           if (s === 5) {
-            c.position.x = x;
-            c.position.z = y;
+            c.translateX(x);
+            c.translateZ(-y - this.w / 2);
 
             c.translateY(-this.w / 2);
-            c.translateZ(-this.size + this.w / 2);
-
             c.rotation.x = Math.PI / 2;
           }
-
+          
           cubeMesh.add(c);
         }
       }
     }
 
+
     cubeMesh.position.z = -15;
     cubeMesh.position.y = -this.size / 2;
     scene.add(cubeMesh);
   }
-
+t
   reset() {
     scene.remove(cubeMesh);
     cubeMesh = new THREE.Mesh();
     this.makeCube();
   }
+
+  test() {
+    // cube.state[1][0][0] = 'r';
+    // cube.state[1][0][1] = 'r';
+    // cube.state[1][0][2] = 'r';
+  }
 }
+
