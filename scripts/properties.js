@@ -38,28 +38,23 @@ function setProperties() {
   hideUI();
 }
 
-function generateScramble(len = cube.dim * cube.dim * cube.dim) {
+function generateScramble(len = 10 * cube.dim) {
+  scramble = [];
+
   // Need a random move and direction
-  let possibleMoves = 'rlfbud';
+  let possibleMoves = 'mse';
   let max = possibleMoves.length;
-
-  let scramble = '';
+  
   for (let i = 0; i < len; i++) {
+    scramble.push({move: '', row: '', isClockwise: false});
     let moveIndex = Math.floor(Math.random() * max);
-    scramble += possibleMoves[moveIndex];
+    let row = Math.floor(Math.random(cube.dim) * cube.dim);
 
+    scramble[i].move = possibleMoves[moveIndex];
+    scramble[i].row = row;
+  
     // Direction
-    if (Math.random() < 0.5) scramble += 'i';
-
-    // Move certain row if it is a larger than 3x3 cube
-    // Only needs to move if the move is some sort of middle move (m, s, e)
-    if (moveIndex === 1 || moveIndex === 4 || moveIndex === 7) {
-      if (cube.dim > 3) {
-        max = cube.dim - 2;
-        let sliceIndex = Math.floor(Math.random() * max) + 1;
-        scramble += sliceIndex;
-      }
-    }
+    if (Math.random() < 0.5) scramble[i].isClockwise = true;
   }
 
   return scramble;

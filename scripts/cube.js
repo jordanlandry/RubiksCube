@@ -7,6 +7,9 @@ class Cube {
     this.state = [];
     this.w = this.size / this.dim;
     this.qbSize = this.w - 0.02;
+
+
+    this.doAnimation = true;
   }
 
   makeCube() {
@@ -24,22 +27,29 @@ class Cube {
     }
   }
 
+  getMesh(s, i, j) {
+    let col = colors[this.state[s][i][j]];
+    const g = new THREE.PlaneGeometry(this.qbSize, this.qbSize, this.qbSize);
+    const m = new THREE.MeshBasicMaterial({color: col});
+    const c = new THREE.Mesh(g, m);
+    return c;
+  }
+
   show() {
+    cubeMesh.children = [];   // Reset the children of the cube mesh
     for (let s = 0; s < 6; s++) {
       for (let i = 0; i < this.dim; i++) {
         for (let j = 0; j < this.dim; j++) {
-          let col = colors[this.state[s][i][j]];
 
-          const g = new THREE.PlaneGeometry(this.qbSize, this.qbSize, this.qbSize);
-          const m = new THREE.MeshBasicMaterial({color: col});
-          const c = new THREE.Mesh(g, m);
+          let c = this.getMesh(s, i, j);
+          
 
           let x = (i * this.w);
           let y = (j * this.w);
 
-          c.position.x = -this.size / 2;
-          c.position.y = -this.size / 2;
-          c.position.z = this.size / 2;
+          c.translateX(-this.size / 2);
+          c.translateY(-this.size / 2);
+          c.translateZ(this.size / 2);
 
           if (s === 0) {
             c.translateX(x);
@@ -91,12 +101,16 @@ class Cube {
       }
     }
 
-
     cubeMesh.position.z = -15;
     cubeMesh.position.y = -this.size / 2;
+  }
+
+  addCube() {
     scene.add(cubeMesh);
   }
-t
+
+
+
   reset() {
     scene.remove(cubeMesh);
     cubeMesh = new THREE.Mesh();
@@ -109,4 +123,6 @@ t
     // cube.state[1][0][2] = 'r';
   }
 }
+
+scene.add(cubeMesh);
 

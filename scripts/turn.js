@@ -6,25 +6,16 @@ function sleep(ms) {
 // ------------------------------------
 async function turn(sequence) {
   for (let i = 0; i < sequence.length; i++) {
-    let move = sequence[i];
-    let isClockwise = true;
-
-    if (i !== sequence.length -1) {
-      if (sequence[i + 1] === 'i') isClockwise = false;
-    }
-
-    let row;
-
-
+    let move = sequence[i].move;
+    let row = sequence[i].row;
+    let isClockwise = sequence[i].isClockwise;
+    
     switch (move) {
       case 'l':
         await turnRight(0, isClockwise);
         break;
 
       case 'm':
-        if (cube.dim > 3 && i < sequence.length - 1) row = sequence[i + 1];
-        else row = 1;
-
         await turnRight(row, isClockwise);
         break;
 
@@ -37,9 +28,6 @@ async function turn(sequence) {
         break;
 
       case 's':
-        if (cube.dim > 3 && i < sequence.length - 1) row = sequence[i + 1];
-        else row = 1;
-
         await turnFront(row, isClockwise);
         break;
 
@@ -52,9 +40,6 @@ async function turn(sequence) {
         break;
 
       case 'e':
-        if (cube.dim > 3 && i < sequence.length - 1) row = sequence[i + 1];
-        else row = 1;
-
         await turnTop(row, isClockwise);
         break;
 
@@ -65,8 +50,8 @@ async function turn(sequence) {
       default:
         break;
     }
-    await sleep(250);
 
+    await animateTurn(0, row, true);
     cube.show();
   }
 
@@ -82,6 +67,7 @@ async function turnRight(row, isClockwise) {
     for (let i = 0; i < cube.dim; i++) {
       let opp = cube.dim - 1 - i;
       let temp = cube.state[0][row][i];
+      
       cube.state[0][row][i] = cube.state[5][row][opp];
       cube.state[5][row][opp] = cube.state[3][row][opp];
       cube.state[3][row][opp] = cube.state[4][row][opp];
@@ -107,12 +93,14 @@ async function turnTop(row, isClockwise) {
     for (let i = 0; i < cube.dim; i++) {
       let opp = cube.dim - i - 1;
       let temp = cube.state[0][i][row];
+
       cube.state[0][i][row] = cube.state[2][i][row];
       cube.state[2][i][row] = cube.state[3][opp][row];
       cube.state[3][opp][row] = cube.state[1][i][row];
       cube.state[1][i][row] = temp;
     }
   }
+  
 
   let side;
   if (row === cube.dim - 1) side = 4;
@@ -133,6 +121,7 @@ async function turnFront(row, isClockwise) {
     for (let i = 0; i < cube.dim; i++) {
       let opp = cube.dim - i - 1;
       let temp = cube.state[1][row][i];
+
       cube.state[1][row][i] = cube.state[4][opp][oppRow];
       cube.state[4][opp][oppRow] = cube.state[2][oppRow][opp];
       cube.state[2][oppRow][opp] = cube.state[5][i][row];
@@ -200,4 +189,15 @@ function rotateMatrix(matrix, isClockwise, side) {
   }
 
   cube.state[side] = newMatrix;
+}
+
+
+async function animateTurn(side, row, isClockwise) {
+  if (!cube.doAnimation) return;
+
+  const centerG = new THREE.PlaneGeometry(0.1, 0.1, 0.1);
+  const centerM = new THREE.MeshBasicMaterial( {color: 0x000000} );
+  const centerMesh = new THREE.Mesh(centerG, centerM);
+
+  // Add the meshes to an invisible mesh in the center, then rotate the center
 }

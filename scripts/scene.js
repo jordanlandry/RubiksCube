@@ -16,7 +16,6 @@ function init() {
   camera.position.z = 5;
   cubeMesh = new THREE.Mesh();
 
-
   // Temp
   cubeMesh.rotation.x = Math.PI / 6;
 }
@@ -28,6 +27,16 @@ function animate() {
 
   // cubeMesh.rotation.z -= 0.01;
 
+  let fps = getFPS();
+  // console.log(fps);
+}
+
+var lastLoop
+function getFPS() {
+  var thisLoop = new Date();
+  var fps = 1000 / (thisLoop - lastLoop);
+  lastLoop = thisLoop;
+  return fps;
 }
 
 // Resize scene 

@@ -1,14 +1,8 @@
 // Turn the cube
 document.addEventListener('keydown', async (event)  =>{
-  scrambleSequence = generateScramble(25);
-  let sequence = 'r';
+  scrambleSequence = generateScramble();
   if (event.code === 'Space') await turn(scrambleSequence);
-  if (event.code === 'ArrowDown') turn('ri');
-  if (event.code === 'ArrowUp') turn('ui');
-  if (event.code === 'ArrowLeft') turn('fi');
-  // console.log(scrambleSequence);
 });
-
 
 
 // Move the mouse to change the rotation of the cube
