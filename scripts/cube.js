@@ -1,4 +1,4 @@
-let sideMeshes = [[],[],[],[],[],[]];
+let pieceMeshes = [];
 class Cube {
   constructor(dim = 3, size) {
     this.dim = dim;
@@ -9,7 +9,7 @@ class Cube {
     this.qbSize = this.w - 0.02;
 
 
-    this.doAnimation = true;
+    this.doAnimation = false;
   }
 
   makeCube() {
@@ -31,24 +31,30 @@ class Cube {
     let col = colors[this.state[s][i][j]];
     const g = new THREE.PlaneGeometry(this.qbSize, this.qbSize, this.qbSize);
     const m = new THREE.MeshBasicMaterial({color: col});
+    g.center();
     const c = new THREE.Mesh(g, m);
     return c;
   }
 
   show() {
     cubeMesh.children = [];   // Reset the children of the cube mesh
+    pieceMeshes = [];         // Reset the meshes array
     for (let s = 0; s < 6; s++) {
+      pieceMeshes.push([]);
+
       for (let i = 0; i < this.dim; i++) {
+        pieceMeshes[s].push([]);
+        
         for (let j = 0; j < this.dim; j++) {
+          pieceMeshes[s][i].push();
 
           let c = this.getMesh(s, i, j);
           
-
           let x = (i * this.w);
           let y = (j * this.w);
 
-          c.translateX(-this.size / 2);
-          c.translateY(-this.size / 2);
+          c.translateX(-this.size / 2 + this.w / 2);
+          c.translateY(-this.size / 2 + this.w / 2);
           c.translateZ(this.size / 2);
 
           if (s === 0) {
@@ -96,6 +102,8 @@ class Cube {
             c.rotation.x = Math.PI / 2;
           }
           
+          pieceMeshes[s][i][j] = (c);
+
           cubeMesh.add(c);
         }
       }

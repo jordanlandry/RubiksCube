@@ -4,6 +4,7 @@ function start() {
   cube.test();
   cube.show();
   cube.addCube();
+  
 }
 
 // Begin the animation function once everything has loaded

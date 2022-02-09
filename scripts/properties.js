@@ -1,3 +1,4 @@
+let turnSpeed;
 let cubeDimensions;
 let scrambleSequence;
 let index = ['r','g','b','o','y','w'];
@@ -10,10 +11,12 @@ let colors = {
   'w' : 0xFFFFFF
 };
 
+
 // let colors = [0xFF0000, 0x00FF00, 0x0000FF, 0xFFA500, 0xFFFF00, 0xFFFFFF];
 
 let ui = document.getElementById('properties-ui');
 let sizeProperty = document.getElementById('size');
+let speedProperty = document.getElementById('speed');
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') hideUI();
@@ -33,7 +36,10 @@ function showUI() {
 
 function setProperties() {  
   cube.reset();
+
   cubeDimensions =  sizeProperty.value;
+  turnSpeed = speedProperty.value;
+
   start();
   hideUI();
 }

@@ -1,3 +1,8 @@
+// Center of rotation for animation
+const centerG = new THREE.PlaneGeometry(0.1, 0.1, 0.1);
+const centerM = new THREE.MeshBasicMaterial( {color: 0xff0000} );
+const centerMesh = new THREE.Mesh(centerG, centerM);
+
 // Sleep Function
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -38,7 +43,7 @@ async function turn(sequence) {
       case 'u':
         await turnTop(cube.dim - 1, isClockwise);
         break;
-
+        
       case 'e':
         await turnTop(row, isClockwise);
         break;
@@ -51,17 +56,15 @@ async function turn(sequence) {
         break;
     }
 
-    await animateTurn(0, row, true);
+    // await animateTurn(0, row, true);
     cube.show();
   }
-
 }
 
 // ------------------------------------
 async function turnRight(row, isClockwise) {
   let max = cube.dim - 1;
-  let turnCount = 1;
-  if (!isClockwise) turnCount = 3;
+  let turnCount = isClockwise ? 1 : 3;
 
   for (let t = 0; t < turnCount; t++) {
     for (let i = 0; i < cube.dim; i++) {
@@ -81,13 +84,13 @@ async function turnRight(row, isClockwise) {
   else return;
 
   rotateMatrix(cube.state[side], isClockwise, side);
+  cube.show();
 }
 
 // ------------------------------------
 async function turnTop(row, isClockwise) {
   // Turning it clockwise 3 times is the same as turning it counter-clockwise once
-  let turnCount = 1;
-  if (!isClockwise) turnCount = 3;
+  let turnCount = isClockwise ? 1 : 3;
   
   for (let t = 0; t < turnCount; t++) {
     for (let i = 0; i < cube.dim; i++) {
@@ -108,14 +111,13 @@ async function turnTop(row, isClockwise) {
   else return;
 
   rotateMatrix(cube.state[side], isClockwise, side);
+  cube.show();
 }
 
 // ------------------------------------
 async function turnFront(row, isClockwise) {
-  let turnCount = 1;
   let oppRow = cube.dim - 1 - row;
-
-  if (!isClockwise) turnCount = 3;
+  let turnCount = isClockwise ? 1 : 3;
 
   for (let t = 0; t < turnCount; t++) {
     for (let i = 0; i < cube.dim; i++) {
@@ -129,12 +131,16 @@ async function turnFront(row, isClockwise) {
     }
   }
 
+  await animateTurn(0, row, isClockwise);
+
+
   let side;
   if (row === cube.dim - 1) side = 3;
   else if (row === 0) side = 0;
   else return;
 
   rotateMatrix(cube.state[side], isClockwise, side);
+  cube.show();
 }
 
 
@@ -194,10 +200,4 @@ function rotateMatrix(matrix, isClockwise, side) {
 
 async function animateTurn(side, row, isClockwise) {
   if (!cube.doAnimation) return;
-
-  const centerG = new THREE.PlaneGeometry(0.1, 0.1, 0.1);
-  const centerM = new THREE.MeshBasicMaterial( {color: 0x000000} );
-  const centerMesh = new THREE.Mesh(centerG, centerM);
-
-  // Add the meshes to an invisible mesh in the center, then rotate the center
 }
