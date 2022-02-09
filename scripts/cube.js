@@ -37,8 +37,13 @@ class Cube {
   }
 
   show() {
-    cubeMesh.children = [];   // Reset the children of the cube mesh
-    pieceMeshes = [];         // Reset the meshes array
+    // Reset the children of the cube mesh
+    cubeMesh.children = [];
+
+    // Reset the meshes array
+    pieceMeshes = [];
+
+    // Create Meshes 
     for (let s = 0; s < 6; s++) {
       pieceMeshes.push([]);
 
@@ -57,11 +62,15 @@ class Cube {
           c.translateY(-this.size / 2 + this.w / 2);
           c.translateZ(this.size / 2);
 
+          // Adjust position and rotation for each side
+
+          // RED
           if (s === 0) {
             c.translateX(x);
             c.translateY(y);
           }
 
+          // GREEN
           if (s === 1) {
             c.translateY(y);
             c.translateZ(-x - this.w / 2);
@@ -70,6 +79,7 @@ class Cube {
             c.rotation.y = Math.PI / 2;
           }
 
+          // BLUE
           if (s === 2) {
             c.translateZ(x - this.size + this.w / 2);
             c.translateY(y);
@@ -78,6 +88,7 @@ class Cube {
             c.rotation.y = -Math.PI / 2;
           }
 
+          // ORANGE
           if (s === 3) {
             c.translateX(x);
             c.translateY(y);
@@ -85,6 +96,7 @@ class Cube {
             c.rotation.y = Math.PI;
           }
 
+          // YELLOW
           if (s === 4) {
             c.translateX(x);
             c.translateZ(y);
@@ -94,6 +106,7 @@ class Cube {
             c.rotation.x = -Math.PI / 2;
           }
 
+          // WHITE
           if (s === 5) {
             c.translateX(x);
             c.translateZ(-y - this.w / 2);
@@ -102,29 +115,47 @@ class Cube {
             c.rotation.x = Math.PI / 2;
           }
           
-          pieceMeshes[s][i][j] = (c);
+          // Add the meshes to the array
+          pieceMeshes[s][i][j] = c;
 
+          // Append the meshes of the pieces to the cube Mesh
           cubeMesh.add(c);
         }
       }
     }
-
-    cubeMesh.position.z = -15;
-    cubeMesh.position.y = -this.size / 2;
   }
 
+  // Add the cube mesh to the scene
   addCube() {
     scene.add(cubeMesh);
   }
 
-
-
+  // Reset the cube
   reset() {
+    let position = cubeMesh.position;
+    let rotation = cubeMesh.rotation;
+    
+    // Remove the cubemesh and make a new one
     scene.remove(cubeMesh);
     cubeMesh = new THREE.Mesh();
+    
+    // Keep the same position and rotation of the current cube
+    // Position
+    cubeMesh.position.x = position.x;
+    cubeMesh.position.y = position.y;
+    cubeMesh.position.z = position.z;
+
+    // Rotation
+    cubeMesh.rotation.x = rotation.x;
+    cubeMesh.rotation.y = rotation.y;
+    cubeMesh.rotation.z = rotation.z;
+
+    // Make another cube
     this.makeCube();
   }
 
+
+  // For testing certain positions
   test() {
     // cube.state[1][0][0] = 'r';
     // cube.state[1][0][1] = 'r';
@@ -132,5 +163,4 @@ class Cube {
   }
 }
 
-scene.add(cubeMesh);
-
+cubeMesh.position.z = -10;
