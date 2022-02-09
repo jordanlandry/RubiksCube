@@ -8,7 +8,6 @@ class Cube {
     this.w = this.size / this.dim;
     this.qbSize = this.w - 0.02;
 
-
     this.doAnimation = false;
   }
 
@@ -21,19 +20,10 @@ class Cube {
         this.state[s].push([]);
 
         for (let j = 0; j < this.dim; j++) {
-          this.state[s][i].push(index[s]);
+          this.state[s][i].push({color: index[s], mesh: ''});
         }
       }
     }
-  }
-
-  getMesh(s, i, j) {
-    let col = colors[this.state[s][i][j]];
-    const g = new THREE.PlaneGeometry(this.qbSize, this.qbSize, this.qbSize);
-    const m = new THREE.MeshBasicMaterial({color: col});
-    g.center();
-    const c = new THREE.Mesh(g, m);
-    return c;
   }
 
   show() {
@@ -51,9 +41,12 @@ class Cube {
         pieceMeshes[s].push([]);
         
         for (let j = 0; j < this.dim; j++) {
-          pieceMeshes[s][i].push();
+          let col = colors[this.state[s][i][j].color];
+          const g = new THREE.PlaneGeometry(this.qbSize, this.qbSize, this.qbSize);
+          const m = new THREE.MeshBasicMaterial({color: col});
+          const c = new THREE.Mesh(g, m);
 
-          let c = this.getMesh(s, i, j);
+          pieceMeshes[s][i].push([]);
           
           let x = (i * this.w);
           let y = (j * this.w);
@@ -116,7 +109,8 @@ class Cube {
           }
           
           // Add the meshes to the array
-          pieceMeshes[s][i][j] = c;
+          pieceMeshes[s][i][j].mesh = c;
+          cube.state[s][i][j].mesh = c;
 
           // Append the meshes of the pieces to the cube Mesh
           cubeMesh.add(c);
