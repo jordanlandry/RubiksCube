@@ -28,7 +28,6 @@ function animate() {
   // cubeMesh.rotation.z -= 0.01;
 
   let fps = getFPS();
-  // console.log(fps);
 }
 
 var lastLoop

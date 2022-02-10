@@ -6,8 +6,6 @@ document.addEventListener('keydown', async (event)  =>{
   }
 
   if (event.code === 'Enter') await solve();
-  
-  // if (event.code === 'ArrowUp') await turn([{move: 'f', row: '0', isClockwise: true}]);
 });
 
 // Move the mouse to change the rotation of the cube

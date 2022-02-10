@@ -1,6 +1,5 @@
-let turnSpeed;
-let cubeDimensions;
-let scrambleSequence;
+let turnSpeed, cubeDimensions, solvingMethod;
+let scrambleSequence = [];
 let index = ['r','g','b','o','y','w'];
 let colors = {
   'r' : 0xFF0000,
@@ -11,12 +10,10 @@ let colors = {
   'w' : 0xFFFFFF
 };
 
-
-// let colors = [0xFF0000, 0x00FF00, 0x0000FF, 0xFFA500, 0xFFFF00, 0xFFFFFF];
-
 let ui = document.getElementById('properties-ui');
 let sizeProperty = document.getElementById('size');
 let speedProperty = document.getElementById('speed');
+let solvingMethodProperty = document.getElementById('method');
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') hideUI();
@@ -39,6 +36,7 @@ function setProperties() {
 
   cubeDimensions =  sizeProperty.value;
   turnSpeed = speedProperty.value;
+  solvingMethod = solvingMethodProperty.value;
 
   start();
   hideUI();
@@ -46,7 +44,6 @@ function setProperties() {
 
 function generateScramble(len = 10 * cube.dim) {
   scramble = [];
-
   // Need a random move and direction
   let possibleMoves = 'mse';
   let max = possibleMoves.length;
