@@ -42,17 +42,25 @@ function setProperties() {
   hideUI();
 }
 
-function generateScramble(len = 10 * cube.dim) {
+function generateScramble(len = 25 + parseInt(cube.dim)) {
   scramble = [];
+
   // Need a random move and direction
   let possibleMoves = 'mse';
   let max = possibleMoves.length;
   
   for (let i = 0; i < len; i++) {
-    scramble.push({move: '', row: '', isClockwise: false});
+    // Create the scramble array
+    scramble.push( { move: '', row: '', isClockwise: false } );
+
+    // Generate move
     let moveIndex = Math.floor(Math.random() * max);
     let row = Math.floor(Math.random(cube.dim) * cube.dim);
 
+    // Make sure the middle doesn't move on odd dimensioned cube
+    if ( cube.dim % 2 !== 0 && row === Math.floor( cube.dim / 2 ) ) row += Math.random < 0.5 ? -1 : 1;
+
+    // Set array to generated move
     scramble[i].move = possibleMoves[moveIndex];
     scramble[i].row = row;
   

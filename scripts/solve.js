@@ -22,3 +22,11 @@ async function solve() {
       await solveByBlindfold();
   }
 }
+
+
+// This will simulate what the cube state will be without actually updating the cube state
+function simulateMove(currentState, sequence) {
+  let result;
+  
+  return result;
+} 

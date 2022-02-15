@@ -12,15 +12,15 @@ async function turn(sequence) {
     
     switch (move) {
       case 'l':
-        await turnRight(0, isClockwise);
+        cube.state = await turnRight(0, isClockwise);
         break;
 
       case 'm':
-        await turnRight(row, isClockwise);
+        cube.state = await turnRight(row, isClockwise);
         break;
 
       case 'r':
-        await turnRight(cube.dim - 1, isClockwise);
+        cube.state = await turnRight(cube.dim - 1, isClockwise);
         break;
 
       case 'f':
@@ -55,22 +55,24 @@ async function turn(sequence) {
     cube.show();
     await sleep(10);
   }
+
+  
 }
 
 // ------------------------------------
-async function turnRight(row, isClockwise) {
+async function turnRight(row, isClockwise, state = cube.state) {
   let max = cube.dim - 1;
   let turnCount = isClockwise ? 1 : 3;
 
   for (let t = 0; t < turnCount; t++) {
     for (let i = 0; i < cube.dim; i++) {
       let opp = cube.dim - 1 - i;
-      let temp = cube.state[0][row][i];
+      let temp = state[0][row][i];
       
-      cube.state[0][row][i] = cube.state[5][row][opp];
-      cube.state[5][row][opp] = cube.state[3][row][opp];
-      cube.state[3][row][opp] = cube.state[4][row][opp];
-      cube.state[4][row][opp] = temp;
+      state[0][row][i] = state[5][row][opp];
+      state[5][row][opp] = state[3][row][opp];
+      state[3][row][opp] = state[4][row][opp];
+      state[4][row][opp] = temp;
     }
   }
 
@@ -80,10 +82,10 @@ async function turnRight(row, isClockwise) {
     side = 2;
     isClockwise = !isClockwise
   }
-  else return;
+  else return state;
 
-  rotateMatrix(cube.state[side], isClockwise, side);
-  cube.show();
+  rotateMatrix(state[side], isClockwise, side);
+  return state;
 }
 
 // ------------------------------------
